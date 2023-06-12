@@ -5,8 +5,11 @@ const router = express.Router();
 
 // Registrar um novo resultado
 router.post("/", async (req, res) => {
-    db.pontuacao.insertOne()
-});
+    db.pontuacao.insertOne({
+     nome: "Luane",
+     pontos: 10
+    })
+}
 
 
 // Pegar os 10 melhores resultados
