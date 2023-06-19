@@ -1,20 +1,19 @@
 const numero_moedas = 108;
-const tempo_inicial = 30;
 let pontos = 0;
-let tempo = 0;
+let tempo = 10;
 let timer = null;
 const name = prompt("Qual seu nome?", "Escreva");
 
 function criarElemento(nome, pontos){
   const container = document.getElementById('melhoresPontuadores');
   nome = document.createElement('p');
-  pontos = document.createElement('span');
+  pontos = document.createElement('p');
 
   nome.textContent = name;
   pontos.textContent = pontos(name);
 
   container.appendChild(nome);
-  container.appendChild(pontos);
+  container.appendChild(pontos(nome));
 }
 
 function iniciaJogo(){
@@ -56,6 +55,7 @@ moeda.src = "delicia.png";
 let contadorPontos = document.getElementById("pontos");
 contadorPontos.innerText = pontos;
 }
+
 function contaTempo(){
 if(tempo > 0){
 --tempo;
