@@ -18,7 +18,7 @@ function criarElemento(nome, pontos){
 
 function iniciaJogo(){
 pontos = 0;
-tempo = tempo_inicial;
+tempo = tempo;
 let tela = document.getElementById("tela");
 tela.innerHTML = "";
 
