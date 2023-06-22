@@ -3,8 +3,7 @@ const tempo_inicial = 30;
 let pontos = 0;
 let tempo = 0;
 let timer = null; 
-let nome = prompt("Qual o seu nome?");             
-  
+const nome = prompt("Qual o seu nome?","");
 
   function criarElemento(nome, pontos) {
     let container = document.getElementById("container");
@@ -37,6 +36,15 @@ tela.appendChild(moeda);
 }
 timer = setInterval(contaTempo,1000);
 
+
+document.addEventListener("DOMContentLoaded", function() {
+  let startButton = document.getElementById("startButton");
+
+  // Adiciona um ouvinte de evento ao botão de início do jogo
+startButton.addEventListener("click", function() {
+    iniciaJogo();
+
+
 fetch("http://localhost:5050/score")
 .then(response => {
   if (!response.ok) {
@@ -53,6 +61,8 @@ fetch("http://localhost:5050/score")
 })
 .catch(error => {
   console.error(error);
+})
+})
 })
 }
 
@@ -72,13 +82,17 @@ contadorTempo.innerText = tempo;
 
 return contaTempo = null;
 }
-
+alert("você fez"+ " " + pontos + " " + "pontos, parabéns!");
 if(tempo <= 0){
   clearInterval(timer);
   let pontuacao = {
     pontos: pontos,
     nome: nome
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+    let startButton = document.getElementById("startButton");
+    startButton.addEventListener ("click", function(){
   
   fetch('http://localhost:5050/score', {
     method: "POST",
@@ -87,8 +101,9 @@ if(tempo <= 0){
   })
   .then(response => response.json())
   .then(json => console.log(json))
-  .catch(err => console.log(err))
-  alert("você fez"+ " " + pontos + " " + "pontos, parabéns!");
-  iniciaJogo();
+  .catch(error => console.log(error))
+  return iniciaJogo();
+    })
+  })
  }
 }
