@@ -9,5 +9,3 @@ try {
 } catch(error) {
   console.error(error);
 }
-
-console.log(connectionString)
