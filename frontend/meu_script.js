@@ -18,7 +18,7 @@ let nome = prompt("Qual o seu nome?");
     container.appendChild(linha);
     linha.appendChild(nick);
     linha.appendChild(points);
-  }
+}
 
 function iniciaJogo(){
   pontos = 0;
@@ -36,7 +36,6 @@ pegaMoeda(this);
 tela.appendChild(moeda);
 }
 timer = setInterval(contaTempo,1000);
-}
 
 fetch("http://localhost:5050/score")
 .then(response => {
@@ -54,7 +53,8 @@ fetch("http://localhost:5050/score")
 })
 .catch(error => {
   console.error(error);
-});
+})
+}
 
 function pegaMoeda(moeda){
 moeda
@@ -75,18 +75,11 @@ return contaTempo = null;
 
 if(tempo <= 0){
   clearInterval(timer);
-  alert("você fez"+ " " + pontos + " " + "pontos, parabéns!");
-  iniciaJogo();
- }
-}
-
-
-function salvamento(nome , pontos){
   let pontuacao = {
-    nome: nome,
-    pontos: pontos
-  }
-
+    pontos: pontos,
+    nome: nome
+    }
+  
   fetch('http://localhost:5050/score', {
     method: "POST",
     body: JSON.stringify(pontuacao),
@@ -94,5 +87,8 @@ function salvamento(nome , pontos){
   })
   .then(response => response.json())
   .then(json => console.log(json))
-  .catch(error => console.log(error))
+  .catch(err => console.log(err))
+  alert("você fez"+ " " + pontos + " " + "pontos, parabéns!");
+  iniciaJogo();
+ }
 }
