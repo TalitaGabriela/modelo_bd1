@@ -1,24 +1,12 @@
 const numero_moedas = 108;
+const tempo_inicial = 30;
 let pontos = 0;
 let tempo = 10;
-let timer = null;
-const name = prompt("Qual seu nome?", "Escreva");
-
-function criarElemento(nome, pontos){
-  const container = document.getElementById('melhoresPontuadores');
-  nome = document.createElement('p');
-  pontos = document.createElement('p');
-
-  nome.textContent = name;
-  pontos.textContent = pontos(name);
-
-  container.appendChild(nome);
-  container.appendChild(pontos(nome));
-}
+let timer = null; 
 
 function iniciaJogo(){
 pontos = 0;
-tempo = tempo;
+tempo = tempo_inicial;
 let tela = document.getElementById("tela");
 tela.innerHTML = "";
 
@@ -34,19 +22,23 @@ tela.appendChild(moeda);
 timer = setInterval(contaTempo,1000);
 }
 
-fetch('http://localhost:5050/score')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro na requisição'); 
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data)
-    })
-    .catch(error => {
-      console.log(error);
-    });
+fetch("http://localhost:5050/score")
+.then(response => {
+  if (!response.ok) {
+    throw new Error("Erro na requisição");
+  }
+  return response.json();
+})
+.then(data => {
+  const jogadores = data;
+  console.log(data);
+  jogadores.forEach(jogador => {
+    criarElemento(jogador.name, jogador.pontos);
+  });
+})
+.catch(error => {
+  console.error(error);
+});
 
 function pegaMoeda(moeda){
 moeda
@@ -72,16 +64,49 @@ iniciaJogo();
 }
 }
 
-let pontuacao = {
-    name: name,
+
+function salvamento(nome , pontos){
+  let pontuacao = {
+    name: nome,
     pontos: pontos
   }
 
   fetch('http://localhost:5050/score', {
     method: "POST",
-    body: JSON.stringify(pontuacao),
+    body: JSON.stringify(pontos),
     headers: {"Content-type":"application/json; charset=UTF-8"}
   })
   .then(response => response.json())
   .then(json => console.log(json))
   .catch(error => console.log(error))
+
+  return pontuacao
+}
+
+function jogPerdeu() {
+  if (pontos === 0) {
+    return alert("Você não pegou nenhum Doce, tente novamente!") + 
+    iniciaJogo()
+  }
+  // Reinicia o jogo
+  iniciaJogo();
+}
+
+const nome = prompt("Qual o seu nome?");             
+  criarElemento(nome, pontos);
+  salvamento(nome, pontos)
+  alert("Parabéns! Você pegou " + pontos + " Doces!");
+
+  function criarElemento(name , pontos) {
+    let container = document.getElementById("melhoresPontuadores");
+    let linha = document.createElement("p");
+      let nick = document.createElement("h2");
+      let points = document.createElement("h2");
+  
+      nick.innerText = name;
+      points.innerText = pontos;
+  
+      linha.appendChild(nick);
+      linha.appendChild(points);
+      container.appendChild(linha);
+  }
